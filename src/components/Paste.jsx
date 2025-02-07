@@ -1,22 +1,23 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromPastes } from "../redux/pasteSlice";
+import toast from "react-hot-toast";
 
 const Paste = () => {
   const pastes = useSelector((state) => state.paste.pastes);
   const dispatch = useDispatch();
    const [searchTerm, setSerachTerm] = useState('')
   const filteredData = pastes.filter(
-    (paste) => paste.title.toLowerCase().includes
-    (searchTerm.toLowerCase())
+    (paste) => paste.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const allPastes = useSelector((state) => state.paste.pastes);
   console.log(pastes);
 
 
-  const handleDelete(pasteId) {
+  function handleDelete (pasteId) {
 
-    dispatch(removeFromPastes
-    (pasteId));
+    dispatch(removeFromPastes(pasteId));
   }
 
   return (
@@ -48,16 +49,25 @@ const Paste = () => {
                   <div className="flex flex-row place-content-evenly">
 
                     <button>
-                       Edit
+                      <a href={`/?pasteId=${paste?._id}`}>
+                      Edit
+                      </a>
+                       
                     </button>
                     <button>
-                       View
+                      <a href={`/pastes/${paste?._id}`}> 
+                      View
+                      </a>
+                       
                     </button>
                     <button onClick={() => handleDelete(paste?._id)}>
                        Delete
                     </button>
 
-                    <button>
+                    <button onClick={()=> {
+                      navigator.clipboard.writeText(paste.content)
+                      toast.success("Your Content is copied !")
+                    }}>
                        Copy
                     </button>
 
