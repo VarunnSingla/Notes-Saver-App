@@ -19,7 +19,7 @@ const Viewpaste = () => {
           disabled
           placeholder="Enter Your Title here"
           value={paste.title}
-          onChange={(e) => setTitle(e.target.value)}
+          // onChange={(e) => setTitle(e.target.value)}
         />
 
       </div>
